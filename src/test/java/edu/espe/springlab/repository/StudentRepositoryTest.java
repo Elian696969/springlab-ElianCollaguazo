@@ -27,7 +27,7 @@ public class StudentRepositoryTest {
 
     @Test
     void shouldSaveAndFindStudentByEmail() {
-        Student s = new Student(); // ← corrección
+        Student s = new Student(); // ← corrección123
         s.setFullName("Test User");
         s.setEmail("test@example.com");
         s.setBirthDate(LocalDate.of(2000, 10, 10));
