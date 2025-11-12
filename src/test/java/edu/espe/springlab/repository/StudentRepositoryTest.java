@@ -19,14 +19,15 @@ public class StudentRepositoryTest {
     @Test
     void shouldSaveAndFindStudentByEmail() {
         Student s = new Student();
-        s.setFullName("Test User");
+        s.setFullName("test User");
         s.setEmail("test@email.com"); // El email parece ser 'test@e' pero se completa
         s.setBirthDate(LocalDate.of(2000, 10,10));
         s.setActive(true);
 
+        //repository.save(s);
         repository.save(s);
 
-        var result = repository.findByEmail("Test@example.com");
+        var result = repository.findByEmail("test@example.com");
         assertThat(result).isPresent();
         assertThat(result.get().getFullName()).isEqualTo("test user");
     }

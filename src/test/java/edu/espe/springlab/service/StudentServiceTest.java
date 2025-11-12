@@ -11,21 +11,22 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 
 import java.time.LocalDate;
+
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DataJpaTest
-@Import({StudentServiceImpl.class}) // Se asume StudentServiceImpl.class
-
+@Import(StudentServiceImpl.class)
 public class StudentServiceTest {
 
     @Autowired
-    private StudentServiceImpl service; // Se asume el tipo StudentServiceImpl
+    private StudentServiceImpl service;
 
     @Autowired
     private StudentRepository repository;
 
     @Test
     void shouldNotAllowDuplicateEmail() {
+        // Guardamos un estudiante existente con el email duplicado
         Student existing = new Student();
         existing.setFullName("Existing");
         existing.setEmail("duplicate@example.com");
@@ -33,12 +34,14 @@ public class StudentServiceTest {
         existing.setActive(true);
         repository.save(existing);
 
+        // Creamos una solicitud con el mismo email
         StudentRequestData req = new StudentRequestData();
         req.setFullName("New User Dup");
         req.setEmail("duplicate@example.com");
         req.setBirthDate(LocalDate.of(2000, 10, 10));
 
+        // Verificamos que lance una excepción de conflicto
         assertThatThrownBy(() -> service.create(req))
-                .isInstanceOf(ConflictException.class); // ¡Corregido el método y la sintaxis!
+                .isInstanceOf(ConflictException.class);
     }
 }
